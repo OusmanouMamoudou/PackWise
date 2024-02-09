@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:pack_wise/components/empty_object.dart';
+import 'package:pack_wise/components/my_floating_action.dart';
+import 'package:pack_wise/components/my_object_card.dart';
+import 'package:pack_wise/services/box_data.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key, this.title});
@@ -6,6 +11,24 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar:AppBar(title:title), body:Center());
+    return Scaffold(
+        floatingActionButton: const MyFloatingActionB(),
+        appBar: AppBar(title: title),
+        body: Consumer<BoxData>(builder: (context, boxData, child) {
+          final boxes = boxData.boxes;
+          final length = boxData.boxesLength;
+          if (boxes.isEmpty) {
+            return const EmptyObject();
+          }
+
+          return GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+            ),
+            itemCount: length,
+            itemBuilder: (context, i) =>
+                MyObjectCard(title: boxes[i].name!, date: boxes[i].date!),
+          );
+        }));
   }
 }
