@@ -6,11 +6,11 @@ import 'package:pack_wise/const.dart';
 class MyObjectCard extends StatelessWidget {
   const MyObjectCard({
     super.key,
-    required this.title,
+    required this.name,
     required this.date,
     this.description,
   });
-  final String title, date;
+  final String name, date;
   final String? description;
 
   @override
@@ -24,43 +24,34 @@ class MyObjectCard extends StatelessWidget {
         horizontal: width * 0.025,
       ),
       child: Material(
-        color: const Color(0xffF2CB70),
+        color: kCardColor,
         elevation: 10,
         borderRadius: const BorderRadius.all(Radius.circular(25)),
-        child: SizedBox(
-          height: height * 0.25,
-          width: width * 0.48,
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-              vertical: height * 0.02,
-              horizontal: width * 0.05,
+        child: Column(
+          children: [
+            Image.asset(
+              kBox,
+              height: height * 0.11,
+              color: kBlue,
             ),
-            child: Column(
-              children: [
-                Image.asset(
-                  kBox,
-                  height: height * 0.11,
-                  color: kBlue,
+            Flexible(
+              child: Text(
+                name,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: height * 0.022,
                 ),
-                Flexible(
-                  child: Text(
-                    title,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: height * 0.022,
-                    ),
-                  ),
-                ),
-                Text(
-                  date,
-                  style: const TextStyle(
-                    fontStyle: FontStyle.italic,
-                  ),
-                )
-              ],
+              ),
             ),
-          ),
+            Text(
+              date,
+              style: const TextStyle(
+                fontStyle: FontStyle.italic,
+              ),
+            ),
+            SizedBox(height: height * 0.01),
+          ],
         ),
       ),
     );

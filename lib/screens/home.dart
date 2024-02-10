@@ -26,8 +26,10 @@ class Home extends StatelessWidget {
               crossAxisCount: 2,
             ),
             itemCount: length,
-            itemBuilder: (context, i) =>
-                MyObjectCard(title: boxes[i].name!, date: boxes[i].date!),
+            itemBuilder: (context, i) => MyObjectCard(
+              name: boxes[i].name!,
+              date: boxes[i].date.toString(),
+            ),
           );
         }));
   }

@@ -1,6 +1,6 @@
 class MyObject {
-  String? name, description, date;
+  String? name;
   int? quantity;
 
-  MyObject({this.name, this.description, this.date, this.quantity});
+  MyObject({this.name, this.quantity});
 }

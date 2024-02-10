@@ -28,14 +28,19 @@ class MyApp extends StatelessWidget {
                 bodyColor: kBlue,
               ),
           fontFamily: "Roboto",
-          scaffoldBackgroundColor: const Color(0xffF2E1D2),
+          scaffoldBackgroundColor: kBackgroundColor,
           appBarTheme: AppBarTheme(
             backgroundColor: kAppBarColor,
             centerTitle: true,
             titleSpacing: 0.25,
+            iconTheme: IconThemeData(
+              color: kBackgroundColor,
+              size: height * 0.04,
+            ),
             titleTextStyle: TextStyle(
               fontWeight: FontWeight.w900,
               fontSize: height * 0.035,
+              color: kBackgroundColor,
             ),
             elevation: 10,
           ),
