@@ -46,7 +46,10 @@ class MyApp extends StatelessWidget {
           ),
           useMaterial3: true,
         ),
-        home: const Home(title: Text('PackWise')),
+        home: Consumer<BoxData>(builder: (context, boxData, child) {
+          boxData.getBox();
+          return const Home(title: Text('PackWise'));
+        }),
       ),
     );
   }

@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:pack_wise/models/box.dart';
 import 'package:pack_wise/models/my_object.dart';
+import 'package:pack_wise/services/data_base.dart';
 
 class BoxData extends ChangeNotifier {
   //Gestion de la liste des nouveaux Object pour l'ajout dans un Carton
@@ -34,7 +35,7 @@ class BoxData extends ChangeNotifier {
   }
 
 // Gestion de la listes des Cartons
-  final List<Box> _boxes = [];
+  List<Box> _boxes = [];
 
   UnmodifiableListView<Box> get boxes {
     return UnmodifiableListView(_boxes);
@@ -45,7 +46,7 @@ class BoxData extends ChangeNotifier {
   }
 
   void addBox(String name, String description, List<MyObject> objects) {
-    _boxes.add(
+    DatabaseHelper().insertBox(
       Box(
         name: name.toUpperCase(),
         description: description,
@@ -54,6 +55,12 @@ class BoxData extends ChangeNotifier {
         objects: objects,
       ),
     );
+    getBox();
+    notifyListeners();
+  }
+
+  void getBox() async {
+    _boxes = await DatabaseHelper().getBoxList();
     notifyListeners();
   }
 

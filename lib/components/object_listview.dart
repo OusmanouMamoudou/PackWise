@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pack_wise/components/an_object.dart';
-import 'package:pack_wise/components/my_divider.dart';
 import 'package:pack_wise/const.dart';
 import 'package:pack_wise/models/my_object.dart';
 import 'package:pack_wise/services/box_data.dart';

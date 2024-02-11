@@ -1,4 +1,5 @@
 import 'package:pack_wise/models/my_object.dart';
+import 'dart:convert';
 
 class Box {
   String? name, description, date, id;
@@ -29,5 +30,36 @@ class Box {
             : id <= 999
                 ? "0$id"
                 : "$id";
+  }
+
+  // Convert a Box object into a Map object
+  Map<String, dynamic> toMap() {
+    var map = <String, dynamic>{
+      'id': id,
+      'name': name,
+      'description': description,
+      'date': date,
+      'objects': objects != null
+          ? jsonEncode(objects!.map((object) => object.toJson()).toList())
+          : null,
+    };
+    return map;
+  }
+
+  // Create a Box object from a Map object
+  factory Box.fromMap(Map<String, dynamic> map) {
+    var decodedObjects =
+        map['objects'] != null ? jsonDecode(map['objects']) : null;
+    return Box(
+      id: map['id'],
+      name: map['name'],
+      description: map['description'],
+      date: map['date'],
+      objects: decodedObjects != null
+          ? (decodedObjects as List<dynamic>)
+              .map((object) => MyObject.fromJson(object))
+              .toList()
+          : null,
+    );
   }
 }
