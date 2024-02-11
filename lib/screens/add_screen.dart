@@ -170,6 +170,8 @@ class _AddScreenState extends State<AddScreen> {
                                 boxData.addObject(objectName!, quantity);
                                 setState(() {
                                   objectNameCon.clear();
+                                  boxData.resetQuantity();
+                                  objectName = null;
                                 });
                               },
                               text: "Ajouter Objet",
@@ -178,6 +180,10 @@ class _AddScreenState extends State<AddScreen> {
                           ],
                         ),
                         if (newObjects.isNotEmpty) ...[
+                          const MyDivider(),
+                          SizedBox(height: height * 0.01),
+                          Text("Objects Ajoutés:", style: textStyleInfo),
+                          SizedBox(height: height * 0.01),
                           ObjectListView(
                             height: height,
                             textStyleInfo: textStyleInfo,

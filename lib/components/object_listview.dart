@@ -2,14 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:pack_wise/components/an_object.dart';
 import 'package:pack_wise/components/my_divider.dart';
 import 'package:pack_wise/const.dart';
+import 'package:pack_wise/models/my_object.dart';
 import 'package:pack_wise/services/box_data.dart';
 import 'package:provider/provider.dart';
 
 class ObjectListView extends StatelessWidget {
-  const ObjectListView(
-      {super.key, required this.textStyleInfo, required this.height});
+  const ObjectListView({
+    super.key,
+    required this.textStyleInfo,
+    required this.height,
+    this.isInfo,
+    this.objects,
+  });
   final TextStyle textStyleInfo;
   final double height;
+  final bool? isInfo;
+  final List<MyObject>? objects;
   @override
   Widget build(BuildContext context) {
     return Consumer<BoxData>(builder: (context, boxData, child) {
@@ -18,10 +26,6 @@ class ObjectListView extends StatelessWidget {
 
       return Column(
         children: [
-          const MyDivider(),
-          SizedBox(height: height * 0.01),
-          Text("Objects Ajoutés:", style: textStyleInfo),
-          SizedBox(height: height * 0.01),
           SizedBox(
             height: height * 0.25,
             child: Material(
@@ -31,8 +35,22 @@ class ObjectListView extends StatelessWidget {
                 padding: EdgeInsets.symmetric(vertical: height * 0.02),
                 child: ListView.builder(
                     shrinkWrap: true,
-                    itemCount: newObjectsLength,
+                    itemCount: isInfo == true && objects!.isNotEmpty
+                        ? objects!.length
+                        : newObjectsLength,
                     itemBuilder: (context, i) {
+                      if (isInfo == true && objects!.isNotEmpty) {
+                        final objectName =
+                            objects?[(objects!.length - 1) - i].name;
+                        final objectQuantity =
+                            objects?[(objects!.length - 1) - i].quantity;
+                        return AnObject(
+                          name: objectName!,
+                          quantity: objectQuantity!,
+                          index: i,
+                          length: objects!.length,
+                        );
+                      }
                       final objectName =
                           newObjects[(newObjectsLength - 1) - i].name;
                       final objectQuantity =

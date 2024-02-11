@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pack_wise/screens/box_info.dart';
 import 'package:pack_wise/components/empty_object.dart';
 import 'package:pack_wise/components/my_floating_action.dart';
 import 'package:pack_wise/components/my_object_card.dart';
@@ -17,20 +18,37 @@ class Home extends StatelessWidget {
         body: Consumer<BoxData>(builder: (context, boxData, child) {
           final boxes = boxData.boxes;
           final length = boxData.boxesLength;
+
           if (boxes.isEmpty) {
             return const EmptyObject();
           }
 
           return GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-            ),
-            itemCount: length,
-            itemBuilder: (context, i) => MyObjectCard(
-              name: boxes[i].name!,
-              date: boxes[i].date.toString(),
-            ),
-          );
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+              ),
+              itemCount: length,
+              itemBuilder: (context, i) {
+                final boxName = boxes[i].name;
+                final boxDate = boxes[i].date;
+                final boxDescription = boxes[i].description;
+                final boxId = boxes[i].id;
+                final boxObjects = boxes[i].objects;
+                return MyObjectCard(
+                  name: boxes[i].name!,
+                  date: boxes[i].date.toString(),
+                  function: () {
+                    BoxInfo.bottomSheet(
+                      context,
+                      boxName!,
+                      boxDescription!,
+                      boxDate!,
+                      boxId!,
+                      boxObjects!,
+                    );
+                  },
+                );
+              });
         }));
   }
 }

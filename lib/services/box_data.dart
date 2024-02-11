@@ -29,6 +29,10 @@ class BoxData extends ChangeNotifier {
     _newObjects = [];
   }
 
+  void resetQuantity() {
+    _quantity = 1;
+  }
+
 // Gestion de la listes des Cartons
   final List<Box> _boxes = [];
 
@@ -41,16 +45,12 @@ class BoxData extends ChangeNotifier {
   }
 
   void addBox(String name, String description, List<MyObject> objects) {
-    int day = DateTime.now().day;
-    int month = DateTime.now().month;
-    int year = DateTime.now().year;
-    String nowDate = "$day-$month-$year";
-
     _boxes.add(
       Box(
-        name: name,
+        name: name.toUpperCase(),
         description: description,
-        date: nowDate,
+        date: Box().getDate(),
+        id: Box().getIdFormated(boxes),
         objects: objects,
       ),
     );
