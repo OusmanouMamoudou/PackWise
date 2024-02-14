@@ -17,9 +17,12 @@ class AddScreen extends StatefulWidget {
 }
 
 class _AddScreenState extends State<AddScreen> {
-  TextEditingController objectNameCon = TextEditingController();
-  int id = 0;
+  final formObjectKey = GlobalKey<FormState>();
+  final formBoxKey = GlobalKey<FormState>();
+  // final moveKey = GlobalKey();
   String? boxName, boxDescription, objectName;
+  TextEditingController objectNameCon = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     ScreenSize screenSize = ScreenSize(context);
@@ -69,140 +72,176 @@ class _AddScreenState extends State<AddScreen> {
                   shrinkWrap: true,
                   children: [
                     Form(
+                        key: formBoxKey,
                         child: Column(
-                      children: [
-                        Text("Informations du Carton: ", style: textStyleInfo),
-                        Padding(
-                          padding:
-                              EdgeInsets.symmetric(vertical: height * 0.01),
-                          child: TextFormField(
-                              onChanged: (value) {
-                                boxName = value;
-                              },
-                              style: textStyleStyle,
-                              decoration: kInputDecoration.copyWith(
-                                labelText: "Nom",
-                                labelStyle: TextStyle(
-                                    fontSize: height * 0.025,
-                                    fontWeight: FontWeight.w900),
-                              )),
-                        ),
-                        Padding(
-                          padding:
-                              EdgeInsets.symmetric(vertical: height * 0.01),
-                          child: TextFormField(
-                              onChanged: (value) {
-                                boxDescription = value;
-                              },
-                              style: textStyleStyle,
-                              decoration: kInputDecoration.copyWith(
-                                labelText: "Description",
-                                labelStyle: TextStyle(
-                                    fontSize: height * 0.025,
-                                    fontWeight: FontWeight.w900),
-                              )),
-                        ),
-                        const MyDivider(),
-                        SizedBox(height: height * 0.01),
-                        Text("Informations des Objects:", style: textStyleInfo),
-                        SizedBox(height: height * 0.01),
-                        Padding(
-                          padding:
-                              EdgeInsets.symmetric(vertical: height * 0.01),
-                          child: TextFormField(
-                              onChanged: (value) {
-                                objectName = value;
-                              },
-                              controller: objectNameCon,
-                              style: textStyleStyle,
-                              decoration: kInputDecoration.copyWith(
-                                labelText: "Nom d'objet",
-                                labelStyle: TextStyle(
-                                    fontSize: height * 0.025,
-                                    fontWeight: FontWeight.w900),
-                              )),
-                        ),
-                        Row(
                           children: [
-                            Flexible(
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                  top: height * 0.01,
-                                  bottom: height * 0.01,
+                            Text("Informations du Carton: ",
+                                style: textStyleInfo),
+                            Padding(
+                              padding:
+                                  EdgeInsets.symmetric(vertical: height * 0.01),
+                              child: TextFormField(
+                                onChanged: (value) {
+                                  boxName = value;
+                                },
+                                style: textStyleStyle,
+                                decoration: kInputDecoration.copyWith(
+                                  labelText: "Nom",
+                                  labelStyle: TextStyle(
+                                      fontSize: height * 0.025,
+                                      fontWeight: FontWeight.w900),
                                 ),
-                                child: TextFormField(
-                                    onChanged: (value) {
-                                      boxData.addQuantity(value);
-                                    },
-                                    textAlign: TextAlign.center,
-                                    style: objectTextStyle,
-                                    decoration: kInputDecoration.copyWith(
-                                        contentPadding: EdgeInsets.symmetric(
-                                            vertical: height * 0.033),
-                                        hintText: quantity.toString(),
-                                        hintStyle: objectTextStyle)),
+                                validator: (value) =>
+                                    value == null || value.isEmpty
+                                        ? "Entrez le nom du carton"
+                                        : null,
                               ),
                             ),
-                            const SizedBox(width: 5),
-                            Material(
-                              borderRadius: kRadius,
-                              color: kAppBarColor,
-                              elevation: 10,
-                              child: Column(children: [
-                                ArrowButton(
-                                  function: () {
-                                    boxData.increaseQuantity();
-                                  },
-                                  height: height,
-                                  iconData: Icons.arrow_drop_up_outlined,
+                            Padding(
+                              padding:
+                                  EdgeInsets.symmetric(vertical: height * 0.01),
+                              child: TextFormField(
+                                onChanged: (value) {
+                                  boxDescription = value;
+                                },
+                                style: textStyleStyle,
+                                decoration: kInputDecoration.copyWith(
+                                  labelText: "Description",
+                                  labelStyle: TextStyle(
+                                      fontSize: height * 0.025,
+                                      fontWeight: FontWeight.w900),
                                 ),
-                                ArrowButton(
-                                  function: () {
-                                    boxData.decreaseQuantity();
-                                  },
-                                  height: height,
-                                  iconData: Icons.arrow_drop_down_outlined,
-                                ),
-                              ]),
+                                validator: (value) =>
+                                    value == null || value.isEmpty
+                                        ? "Entrez une description"
+                                        : null,
+                              ),
                             ),
-                            MyTextButton(
-                              function: () {
-                                boxData.addObject(objectName!, quantity);
-                                setState(() {
-                                  objectNameCon.clear();
-                                  boxData.resetQuantity();
-                                  objectName = null;
-                                });
-                              },
-                              text: "Ajouter Objet",
-                              width: width * 0.1,
-                            )
+                            const MyDivider(),
+                            SizedBox(height: height * 0.01),
+                            Column(
+                              children: [
+                                Text("Informations des Objects:",
+                                    style: textStyleInfo),
+                                SizedBox(height: height * 0.01),
+                                Form(
+                                  key: formObjectKey,
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: height * 0.01),
+                                    child: TextFormField(
+                                      onChanged: (value) {
+                                        objectName = value;
+                                      },
+                                      controller: objectNameCon,
+                                      style: textStyleStyle,
+                                      decoration: kInputDecoration.copyWith(
+                                        labelText: "Nom d'objet",
+                                        labelStyle: TextStyle(
+                                            fontSize: height * 0.025,
+                                            fontWeight: FontWeight.w900),
+                                      ),
+                                      validator: (value) =>
+                                          value == null || value.isEmpty
+                                              ? "Entrez le nom d'object"
+                                              : null,
+                                    ),
+                                  ),
+                                ),
+                                Row(
+                                  children: [
+                                    Flexible(
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                          top: height * 0.01,
+                                          bottom: height * 0.01,
+                                        ),
+                                        child: TextFormField(
+                                            onChanged: (value) {
+                                              boxData.addQuantity(value);
+                                            },
+                                            textAlign: TextAlign.center,
+                                            style: objectTextStyle,
+                                            decoration:
+                                                kInputDecoration.copyWith(
+                                                    contentPadding:
+                                                        EdgeInsets.symmetric(
+                                                            vertical:
+                                                                height * 0.033),
+                                                    hintText:
+                                                        quantity.toString(),
+                                                    hintStyle:
+                                                        objectTextStyle)),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 5),
+                                    Material(
+                                      borderRadius: kRadius,
+                                      color: kAppBarColor,
+                                      elevation: 10,
+                                      child: Column(children: [
+                                        ArrowButton(
+                                          function: () {
+                                            boxData.increaseQuantity();
+                                          },
+                                          height: height,
+                                          iconData:
+                                              Icons.arrow_drop_up_outlined,
+                                        ),
+                                        ArrowButton(
+                                          function: () {
+                                            boxData.decreaseQuantity();
+                                          },
+                                          height: height,
+                                          iconData:
+                                              Icons.arrow_drop_down_outlined,
+                                        ),
+                                      ]),
+                                    ),
+                                    MyTextButton(
+                                      function: () {
+                                        if (formObjectKey.currentState!
+                                            .validate()) {
+                                          boxData.addObject(
+                                              objectName!, quantity);
+                                          objectNameCon.clear();
+                                          boxData.resetQuantity();
+                                          objectName = null;
+                                        }
+                                      },
+                                      text: "Ajouter Objet",
+                                      width: width * 0.1,
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                            if (newObjects.isNotEmpty) ...[
+                              const MyDivider(),
+                              SizedBox(height: height * 0.01),
+                              Text("Objects Ajoutés:", style: textStyleInfo),
+                              SizedBox(height: height * 0.01),
+                              ObjectListView(
+                                height: height,
+                                textStyleInfo: textStyleInfo,
+                              )
+                            ],
                           ],
-                        ),
-                        if (newObjects.isNotEmpty) ...[
-                          const MyDivider(),
-                          SizedBox(height: height * 0.01),
-                          Text("Objects Ajoutés:", style: textStyleInfo),
-                          SizedBox(height: height * 0.01),
-                          ObjectListView(
-                            height: height,
-                            textStyleInfo: textStyleInfo,
-                          )
-                        ],
-                      ],
-                    ))
+                        ))
                   ],
                 ),
               ),
               MyTextButton(
                 function: () {
-                  boxData.addBox(
-                    boxName.toString(),
-                    boxDescription.toString(),
-                    newObjects,
-                  );
-                  boxData.clearObjects();
-                  Navigator.pop(context);
+                  if (formBoxKey.currentState!.validate()) {
+                    boxData.addBox(
+                      boxName.toString(),
+                      boxDescription.toString(),
+                      newObjects,
+                    );
+                    boxData.clearObjects();
+                    Navigator.pop(context);
+                  }
                 },
                 text: "Ajouter Catron",
                 width: width * 0.2,

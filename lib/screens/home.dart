@@ -12,43 +12,44 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Consumer<BoxData>(builder: (context, boxData, child) {
+      final boxes = boxData.boxes;
+      final length = boxData.boxesLength;
+      return Scaffold(
         floatingActionButton: const MyFloatingActionB(),
         appBar: AppBar(title: title),
-        body: Consumer<BoxData>(builder: (context, boxData, child) {
-          final boxes = boxData.boxes;
-          final length = boxData.boxesLength;
-
-          if (boxes.isEmpty) {
-            return const EmptyObject();
-          }
-
-          return GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-              ),
-              itemCount: length,
-              itemBuilder: (context, i) {
-                final boxName = boxes[i].name;
-                final boxDate = boxes[i].date;
-                final boxDescription = boxes[i].description;
-                final boxId = boxes[i].id;
-                final boxObjects = boxes[i].objects;
-                return MyObjectCard(
-                  name: boxes[i].name!,
-                  date: boxes[i].date.toString(),
-                  function: () {
-                    BoxInfo.bottomSheet(
-                      context,
-                      boxName!,
-                      boxDescription!,
-                      boxDate!,
-                      boxId!,
-                      boxObjects!,
-                    );
-                  },
-                );
-              });
-        }));
+        body: boxes.isEmpty
+            ? const EmptyObject()
+            : boxes.isNotEmpty
+                ? GridView.builder(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                    ),
+                    itemCount: length,
+                    itemBuilder: (context, i) {
+                      final boxName = boxes[i].name;
+                      final boxDate = boxes[i].date;
+                      final boxDescription = boxes[i].description;
+                      final boxId = boxes[i].id;
+                      final boxObjects = boxes[i].objects;
+                      return MyObjectCard(
+                        name: boxes[i].name!,
+                        date: boxes[i].date.toString(),
+                        function: () {
+                          BoxInfo.bottomSheet(
+                            context,
+                            boxName!,
+                            boxDescription!,
+                            boxDate!,
+                            boxId!,
+                            boxObjects!,
+                          );
+                        },
+                      );
+                    })
+                : const CircularProgressIndicator(),
+      );
+    });
   }
 }

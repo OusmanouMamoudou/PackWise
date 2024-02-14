@@ -17,6 +17,7 @@ class ObjectListView extends StatelessWidget {
   final double height;
   final bool? isInfo;
   final List<MyObject>? objects;
+
   @override
   Widget build(BuildContext context) {
     return Consumer<BoxData>(builder: (context, boxData, child) {

@@ -6,7 +6,7 @@ import 'package:pack_wise/models/my_object.dart';
 import 'package:pack_wise/services/data_base.dart';
 
 class BoxData extends ChangeNotifier {
-  //Gestion de la liste des nouveaux Object pour l'ajout dans un Carton
+  //Adding new object management
   List<MyObject> _newObjects = [];
 
   UnmodifiableListView<MyObject> get newObjects {
@@ -34,7 +34,7 @@ class BoxData extends ChangeNotifier {
     _quantity = 1;
   }
 
-// Gestion de la listes des Cartons
+// Box List Management
   List<Box> _boxes = [];
 
   UnmodifiableListView<Box> get boxes {
@@ -64,7 +64,7 @@ class BoxData extends ChangeNotifier {
     notifyListeners();
   }
 
-  //Gestion de la quantité
+  //Quantity Management
   int _quantity = 1;
 
   void increaseQuantity() {
