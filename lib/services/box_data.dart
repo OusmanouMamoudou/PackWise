@@ -60,15 +60,19 @@ class BoxData extends ChangeNotifier {
     notifyListeners();
   }
 
-  void deleteBox() async {
-    String boxIdToDelete = 'your_box_id_here';
+  void deleteBox(String id) async {
+    try {
+      String boxIdToDelete = id;
 
-    int rowsDeleted = await db.deleteBox(boxIdToDelete);
+      int rowsDeleted = await db.deleteBox(boxIdToDelete);
 
-    if (rowsDeleted > 0) {
-      print('Box deleted successfully.');
-    } else {
-      print('No box deleted.');
+      if (rowsDeleted > 0) {
+        print('Box deleted successfully.');
+      } else {
+        print('No box deleted.');
+      }
+    } on Exception catch (e) {
+      print(e);
     }
   }
 

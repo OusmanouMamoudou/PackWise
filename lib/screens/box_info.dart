@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:pack_wise/components/my_divider.dart';
 import 'package:pack_wise/components/my_icon_button.dart';
+import 'package:pack_wise/components/my_snack_bar.dart';
 import 'package:pack_wise/components/object_listview.dart';
 import 'package:pack_wise/components/screen_size.dart';
 import 'package:pack_wise/const.dart';
-import 'package:pack_wise/models/my_object.dart';
+import 'package:pack_wise/services/box_data.dart';
 
 class BoxInfo extends StatelessWidget {
   const BoxInfo({super.key});
 
-  static Future bottomSheet(BuildContext context, String name,
-      String description, String date, String id, List<MyObject> objects) {
+  static Future bottomSheet(BuildContext context, BoxData boxData, index) {
     ScreenSize screenSize = ScreenSize(context);
     double height = screenSize.height();
     double width = screenSize.width();
+    final boxes = boxData.boxes;
+    final boxName = boxes[index].name;
+    final boxDescription = boxes[index].description;
+    final boxId = boxes[index].id;
+    final boxObjects = boxes[index].objects;
+
     var textStyleInfo = TextStyle(
       fontWeight: FontWeight.bold,
       fontSize: height * 0.017,
@@ -52,7 +58,7 @@ class BoxInfo extends StatelessWidget {
                                 child: Column(
                                   children: [
                                     Text(
-                                      name,
+                                      boxName!,
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
@@ -60,7 +66,7 @@ class BoxInfo extends StatelessWidget {
                                       ),
                                     ),
                                     Text(
-                                      id,
+                                      boxId!,
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontStyle: FontStyle.italic,
@@ -80,7 +86,13 @@ class BoxInfo extends StatelessWidget {
                                   MyIconButton(
                                     height: height,
                                     iconData: Icons.delete,
-                                    function: () {},
+                                    function: () {
+                                      boxData.deleteBox(boxId);
+                                      MySnackBar.mySnackBar(
+                                          "Vous venez de supprimer $boxName",
+                                          context);
+                                      Navigator.pop(context);
+                                    },
                                   ),
                                 ],
                               ),
@@ -89,7 +101,7 @@ class BoxInfo extends StatelessWidget {
                           padding:
                               EdgeInsets.symmetric(vertical: height * 0.01),
                           child: Text(
-                            description,
+                            boxDescription!,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontWeight: FontWeight.w700,
@@ -105,7 +117,7 @@ class BoxInfo extends StatelessWidget {
                               textStyleInfo: textStyleInfo,
                               height: height,
                               isInfo: true,
-                              objects: objects),
+                              objects: boxObjects),
                         )
                       ]),
                     ),

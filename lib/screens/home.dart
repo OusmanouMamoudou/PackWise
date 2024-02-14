@@ -28,22 +28,14 @@ class Home extends StatelessWidget {
                     ),
                     itemCount: length,
                     itemBuilder: (context, i) {
-                      final boxName = boxes[i].name;
-                      final boxDate = boxes[i].date;
-                      final boxDescription = boxes[i].description;
-                      final boxId = boxes[i].id;
-                      final boxObjects = boxes[i].objects;
                       return MyObjectCard(
                         name: boxes[i].name!,
                         date: boxes[i].date.toString(),
                         function: () {
                           BoxInfo.bottomSheet(
                             context,
-                            boxName!,
-                            boxDescription!,
-                            boxDate!,
-                            boxId!,
-                            boxObjects!,
+                            boxData,
+                            i,
                           );
                         },
                       );

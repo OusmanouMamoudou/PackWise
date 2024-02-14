@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:pack_wise/components/arrow_button.dart';
 import 'package:pack_wise/components/my_divider.dart';
+import 'package:pack_wise/components/my_snack_bar.dart';
 import 'package:pack_wise/components/my_text_button.dart';
 import 'package:pack_wise/components/object_listview.dart';
 import 'package:pack_wise/components/screen_size.dart';
@@ -243,13 +244,9 @@ class _AddScreenState extends State<AddScreen> {
               MyTextButton(
                 function: () {
                   if (newObjects.isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text(
-                          'Veuilez ajouter des objects dans votre Carton, SVP!',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontWeight: FontWeight.w900)),
-                      duration: Duration(seconds: 3),
-                    ));
+                    MySnackBar.mySnackBar(
+                        'Veuilez ajouter des objects dans votre Carton, SVP!',
+                        context);
                   } else if (formBoxKey.currentState!.validate()) {
                     boxData.addBox(
                       boxName.toString(),
