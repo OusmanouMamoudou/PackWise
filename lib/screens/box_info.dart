@@ -89,7 +89,7 @@ class BoxInfo extends StatelessWidget {
                                     function: () {
                                       boxData.deleteBox(boxId);
                                       MySnackBar.mySnackBar(
-                                          "Vous venez de supprimer $boxName",
+                                          "Vous venez de supprimer  $boxName",
                                           context);
                                       Navigator.pop(context);
                                     },

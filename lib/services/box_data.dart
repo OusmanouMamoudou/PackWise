@@ -61,19 +61,7 @@ class BoxData extends ChangeNotifier {
   }
 
   void deleteBox(String id) async {
-    try {
-      String boxIdToDelete = id;
-
-      int rowsDeleted = await db.deleteBox(boxIdToDelete);
-
-      if (rowsDeleted > 0) {
-        print('Box deleted successfully.');
-      } else {
-        print('No box deleted.');
-      }
-    } on Exception catch (e) {
-      print(e);
-    }
+    await db.deleteBox(id);
   }
 
   void getBox() async {
@@ -107,5 +95,16 @@ class BoxData extends ChangeNotifier {
 
   int get getQuantity {
     return _quantity;
+  }
+
+  //Waiting to fetch data
+  bool isFetching = true;
+
+  void fetching() {
+    isFetching = true;
+    Future.delayed(const Duration(seconds: 3), () {
+      isFetching = false;
+      notifyListeners();
+    });
   }
 }
