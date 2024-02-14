@@ -65,4 +65,13 @@ class DatabaseHelper {
     }
     return boxList;
   }
+
+  Future<int> deleteBox(String id) async {
+    Database db = await database;
+    return await db.delete(
+      boxTable,
+      where: '$colId = ?',
+      whereArgs: [id],
+    );
+  }
 }

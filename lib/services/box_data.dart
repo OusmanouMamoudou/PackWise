@@ -35,6 +35,7 @@ class BoxData extends ChangeNotifier {
   }
 
 // Box List Management
+  DatabaseHelper db = DatabaseHelper();
   List<Box> _boxes = [];
 
   UnmodifiableListView<Box> get boxes {
@@ -57,6 +58,18 @@ class BoxData extends ChangeNotifier {
     );
     getBox();
     notifyListeners();
+  }
+
+  void deleteBox() async {
+    String boxIdToDelete = 'your_box_id_here';
+
+    int rowsDeleted = await db.deleteBox(boxIdToDelete);
+
+    if (rowsDeleted > 0) {
+      print('Box deleted successfully.');
+    } else {
+      print('No box deleted.');
+    }
   }
 
   void getBox() async {

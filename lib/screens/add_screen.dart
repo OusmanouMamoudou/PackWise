@@ -29,6 +29,12 @@ class _AddScreenState extends State<AddScreen> {
     double height = screenSize.height();
     double width = screenSize.width();
 
+    ScrollController scrollController = ScrollController();
+    void autoScroll(double offset) {
+      scrollController.animateTo(offset * 50,
+          duration: const Duration(seconds: 1), curve: Curves.fastOutSlowIn);
+    }
+
     var objectTextStyle = TextStyle(
       fontSize: height * 0.025,
       fontWeight: FontWeight.w900,
@@ -69,6 +75,7 @@ class _AddScreenState extends State<AddScreen> {
               SizedBox(height: height * 0.01),
               Expanded(
                 child: ListView(
+                  controller: scrollController,
                   shrinkWrap: true,
                   children: [
                     Form(
@@ -132,6 +139,7 @@ class _AddScreenState extends State<AddScreen> {
                                     child: TextFormField(
                                       onChanged: (value) {
                                         objectName = value;
+                                        autoScroll(2.5);
                                       },
                                       controller: objectNameCon,
                                       style: textStyleStyle,
@@ -207,6 +215,7 @@ class _AddScreenState extends State<AddScreen> {
                                           objectNameCon.clear();
                                           boxData.resetQuantity();
                                           objectName = null;
+                                          autoScroll(3.5);
                                         }
                                       },
                                       text: "Ajouter Objet",
@@ -233,7 +242,15 @@ class _AddScreenState extends State<AddScreen> {
               ),
               MyTextButton(
                 function: () {
-                  if (formBoxKey.currentState!.validate()) {
+                  if (newObjects.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text(
+                          'Veuilez ajouter des objects dans votre Carton, SVP!',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontWeight: FontWeight.w900)),
+                      duration: Duration(seconds: 3),
+                    ));
+                  } else if (formBoxKey.currentState!.validate()) {
                     boxData.addBox(
                       boxName.toString(),
                       boxDescription.toString(),
