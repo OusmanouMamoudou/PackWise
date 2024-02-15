@@ -73,17 +73,31 @@ class Box {
     };
   }
 
+  String toJsonString() {
+    return jsonEncode(toJson());
+  }
+
+  //Reconvert To Box
   factory Box.fromJson(Map<String, dynamic> json) {
+    final String name = json['name'] ?? '';
+    final String description = json['description'] ?? '';
+    final String id = json['id'] ?? '';
+
+    final List<dynamic> jsonObjects = json['objects'] ?? [];
+
+    final List<MyObject> objects =
+        jsonObjects.map((objJson) => MyObject.fromJson(objJson)).toList();
+
     return Box(
-      name: json['name'],
-      description: json['description'],
-      id: json['id'],
-      objects: List<MyObject>.from(
-          json['objects'].map((objJson) => MyObject.fromJson(objJson))),
+      name: name,
+      description: description,
+      id: id,
+      objects: objects,
     );
   }
 
-  String toJsonString() {
-    return jsonEncode(toJson());
+  factory Box.fromJsonString(String jsonString) {
+    final parsedJson = jsonDecode(jsonString);
+    return Box.fromJson(parsedJson);
   }
 }

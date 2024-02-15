@@ -6,22 +6,24 @@ import 'package:pack_wise/components/object_listview.dart';
 import 'package:pack_wise/components/qr_view.dart';
 import 'package:pack_wise/components/screen_size.dart';
 import 'package:pack_wise/const.dart';
+import 'package:pack_wise/models/box.dart';
 import 'package:pack_wise/services/box_data.dart';
 import 'package:pack_wise/services/qrcode.dart';
 
 class BoxInfo extends StatelessWidget {
   const BoxInfo({super.key});
 
-  static Future bottomSheet(BuildContext context, BoxData boxData, index) {
+  static Future bottomSheet(BuildContext context, BoxData? boxData, index,
+      Box? box, bool? isFromScan) {
     ScreenSize screenSize = ScreenSize(context);
     double height = screenSize.height();
     double width = screenSize.width();
-    final boxes = boxData.boxes;
-    final boxName = boxes[index].name;
-    final boxDescription = boxes[index].description;
-    final boxId = boxes[index].id;
-    final boxObjects = boxes[index].objects;
-    final qrViewData = boxes[index].toJsonString();
+    final boxes = boxData?.boxes;
+    final boxName = box?.name ?? boxes?[index].name;
+    final boxDescription = box?.description ?? boxes?[index].description;
+    final boxId = box?.id ?? boxes?[index].id;
+    final boxObjects = box?.objects ?? boxes?[index].objects;
+    final qrViewData = isFromScan != null ? '' : boxes?[index].toJsonString();
 
     final GlobalKey qrKey = GlobalKey();
 
@@ -81,35 +83,36 @@ class BoxInfo extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              Row(
-                                children: [
-                                  MyIconButton(
-                                    height: height,
-                                    iconData: Icons.save_alt_rounded,
-                                    function: () {
-                                      Navigator.pop(context);
-                                      QrCode().captureAndSavePng(
-                                          context, qrKey, boxName);
-                                      MySnackBar.mySnackBar(
-                                        "$boxName enrégistré dans votre dossier de téléchargement"
-                                        "(Download/PackWise)",
-                                        context,
-                                      );
-                                    },
-                                  ),
-                                  MyIconButton(
-                                    height: height,
-                                    iconData: Icons.delete,
-                                    function: () {
-                                      boxData.deleteBox(boxId);
-                                      MySnackBar.mySnackBar(
-                                          "Vous venez de supprimer  $boxName",
-                                          context);
-                                      Navigator.pop(context);
-                                    },
-                                  ),
-                                ],
-                              ),
+                              if (isFromScan != true)
+                                Row(
+                                  children: [
+                                    MyIconButton(
+                                      height: height,
+                                      iconData: Icons.save_alt_rounded,
+                                      function: () {
+                                        Navigator.pop(context);
+                                        QrCode().captureAndSavePng(
+                                            context, qrKey, boxName);
+                                        MySnackBar.mySnackBar(
+                                          "$boxName enrégistré dans votre dossier de téléchargement"
+                                          "(Download/PackWise)",
+                                          context,
+                                        );
+                                      },
+                                    ),
+                                    MyIconButton(
+                                      height: height,
+                                      iconData: Icons.delete,
+                                      function: () {
+                                        boxData?.deleteBox(boxId);
+                                        MySnackBar.mySnackBar(
+                                            "Vous venez de supprimer  $boxName",
+                                            context);
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                  ],
+                                ),
                             ]),
                         Padding(
                           padding:
@@ -133,10 +136,11 @@ class BoxInfo extends StatelessWidget {
                               isInfo: true,
                               objects: boxObjects),
                         ),
-                        QrView(
-                          qrKey: qrKey,
-                          data: qrViewData,
-                        ),
+                        if (isFromScan != true)
+                          QrView(
+                            qrKey: qrKey,
+                            data: qrViewData.toString(),
+                          ),
                       ]),
                     ),
                   ),

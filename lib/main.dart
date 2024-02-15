@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider<BoxData>(
       create: (context) => BoxData(),
       builder: (context, child) => MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'PackWise',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(

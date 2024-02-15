@@ -4,6 +4,7 @@ import 'package:pack_wise/screens/box_info.dart';
 import 'package:pack_wise/components/empty_object.dart';
 import 'package:pack_wise/components/my_floating_action.dart';
 import 'package:pack_wise/components/my_object_card.dart';
+import 'package:pack_wise/screens/scan_screen.dart';
 import 'package:pack_wise/services/box_data.dart';
 import 'package:provider/provider.dart';
 
@@ -40,7 +41,37 @@ class _HomeState extends State<Home> {
 
       return Scaffold(
           floatingActionButton: const MyFloatingActionB(),
-          appBar: AppBar(title: widget.title),
+          appBar: AppBar(
+            title: widget.title,
+            leading: Image.asset(kLogo),
+            actions: [
+              IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const ScanScreen()),
+                  );
+                },
+                icon: Material(
+                  color: kAppBarColor,
+                  elevation: 10,
+                  borderRadius: kRadius,
+                  child: Padding(
+                    padding: const EdgeInsets.all(2),
+                    child: Material(
+                      color: kBackgroundColor,
+                      elevation: 10,
+                      borderRadius: kRadius,
+                      child: Image.asset(
+                        kScan,
+                        color: boxData.boxes.isEmpty ? kAppBarColor : kBlue,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
           body: Container(
             child: isFetching
                 ? const Center(
@@ -61,10 +92,7 @@ class _HomeState extends State<Home> {
                             date: boxes[i].date.toString(),
                             function: () {
                               BoxInfo.bottomSheet(
-                                context,
-                                boxData,
-                                i,
-                              );
+                                  context, boxData, i, null, null);
                             },
                           );
                         }),
