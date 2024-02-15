@@ -62,4 +62,28 @@ class Box {
           : null,
     );
   }
+
+//Convert a Box to JSON
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'description': description,
+      'id': id,
+      'objects': objects?.map((obj) => obj.toJson()).toList(),
+    };
+  }
+
+  factory Box.fromJson(Map<String, dynamic> json) {
+    return Box(
+      name: json['name'],
+      description: json['description'],
+      id: json['id'],
+      objects: List<MyObject>.from(
+          json['objects'].map((objJson) => MyObject.fromJson(objJson))),
+    );
+  }
+
+  String toJsonString() {
+    return jsonEncode(toJson());
+  }
 }

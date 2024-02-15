@@ -19,7 +19,7 @@ class _HomeState extends State<Home> {
   bool isFetching = true;
 
   void fetching() {
-    Future.delayed(const Duration(seconds: 4), () {
+    Future.delayed(const Duration(seconds: 5), () {
       setState(() {
         isFetching = false;
       });

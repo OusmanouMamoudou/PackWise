@@ -9,6 +9,7 @@ const kCardColor = Color(0xffF2CB70);
 //Images
 const kBox = "assets/box.png";
 const kBoxAdd = "assets/boxadd.png";
+const kLogo = "assets/logo.png";
 
 // Input Decoration
 

@@ -3,9 +3,11 @@ import 'package:pack_wise/components/my_divider.dart';
 import 'package:pack_wise/components/my_icon_button.dart';
 import 'package:pack_wise/components/my_snack_bar.dart';
 import 'package:pack_wise/components/object_listview.dart';
+import 'package:pack_wise/components/qr_view.dart';
 import 'package:pack_wise/components/screen_size.dart';
 import 'package:pack_wise/const.dart';
 import 'package:pack_wise/services/box_data.dart';
+import 'package:pack_wise/services/qrcode.dart';
 
 class BoxInfo extends StatelessWidget {
   const BoxInfo({super.key});
@@ -19,6 +21,9 @@ class BoxInfo extends StatelessWidget {
     final boxDescription = boxes[index].description;
     final boxId = boxes[index].id;
     final boxObjects = boxes[index].objects;
+    final qrViewData = boxes[index].toJsonString();
+
+    final GlobalKey qrKey = GlobalKey();
 
     var textStyleInfo = TextStyle(
       fontWeight: FontWeight.bold,
@@ -80,8 +85,17 @@ class BoxInfo extends StatelessWidget {
                                 children: [
                                   MyIconButton(
                                     height: height,
-                                    iconData: Icons.qr_code,
-                                    function: () {},
+                                    iconData: Icons.save_alt_rounded,
+                                    function: () {
+                                      Navigator.pop(context);
+                                      QrCode().captureAndSavePng(
+                                          context, qrKey, boxName);
+                                      MySnackBar.mySnackBar(
+                                        "$boxName enrégistré dans votre dossier de téléchargement"
+                                        "(Download/PackWise)",
+                                        context,
+                                      );
+                                    },
                                   ),
                                   MyIconButton(
                                     height: height,
@@ -118,10 +132,14 @@ class BoxInfo extends StatelessWidget {
                               height: height,
                               isInfo: true,
                               objects: boxObjects),
-                        )
+                        ),
+                        QrView(
+                          qrKey: qrKey,
+                          data: qrViewData,
+                        ),
                       ]),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

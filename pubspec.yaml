@@ -16,6 +16,11 @@ dependencies:
   provider: ^6.1.1
   qr_code_scanner: ^1.0.1
   path_provider: ^2.1.2
+  qr_flutter: ^4.1.0
+  screenshot: ^2.1.0
+  qr_image_generator: ^0.2.9
+  uuid: ^4.0.0
+  permission_handler: ^10.2.0
  
   
 

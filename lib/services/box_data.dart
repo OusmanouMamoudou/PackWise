@@ -37,6 +37,7 @@ class BoxData extends ChangeNotifier {
 // Box List Management
   DatabaseHelper db = DatabaseHelper();
   List<Box> _boxes = [];
+  final Box _box = Box();
 
   UnmodifiableListView<Box> get boxes {
     return UnmodifiableListView(_boxes);
@@ -51,8 +52,8 @@ class BoxData extends ChangeNotifier {
       Box(
         name: name.toUpperCase(),
         description: description,
-        date: Box().getDate(),
-        id: Box().getIdFormated(boxes),
+        date: _box.getDate(),
+        id: _box.getIdFormated(boxes),
         objects: objects,
       ),
     );
@@ -107,4 +108,6 @@ class BoxData extends ChangeNotifier {
       notifyListeners();
     });
   }
+
+ 
 }
