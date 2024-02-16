@@ -1,16 +1,32 @@
-# pack_wise
+# **PackWise** 
+PackWise is a versatile mobile application(Flutter and Dart) designed to help users manage their belongings more efficiently by organizing them into boxes. 
+Whether you're moving to a new place, storing items, or just want to keep track of your possessions, PackWise has got you covered.
 
-A new Flutter project.
 
-## Getting Started
+## **Features** 
+**Box Management:** Create, edit, and delete boxes to organize your belongings.
 
-This project is a starting point for a Flutter application.
+**Object Tracking:** Add objects to boxes and keep track of what's inside each one. 
 
-A few resources to get you started if this is your first Flutter project:
+**QR Code Integration:** Generate QR codes for each box for easy scanning and identification. 
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+**Data Backup:** Backup your box and object data to prevent loss of information. 
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+**Customizable:** Personalize your boxes and objects with custom names and descriptions. 
+
+
+## **Installation** 
+**Clone the repository:** _bash : git clone https://github.com/OusmanouMamoudou/PackWise.git_ 
+
+**Navigate to the project directory:** _bash: cd PackWise_ 
+
+**Install dependencies:** _bash: flutter pub get_ Run the app: _bash: flutter run_ 
+
+
+## **Contributing** 
+**Contributions are welcome!** 
+Feel free to open issues or pull requests for any improvements or bug fixes you'd like to see. 
+
+
+## **License** 
+This project is licensed under the _**MIT License.**_
