@@ -42,24 +42,27 @@ class _ScanScreenState extends State<ScanScreen> {
           ),
           onPermissionSet: (ctrl, p) => onPermissionSet(context, ctrl, p),
         ),
-        if (result == null)
-          Positioned(
-            top: height * 0.15,
-            child: Material(
-                color: kAppBarColor.withOpacity(0.7),
-                elevation: 10,
-                borderRadius: kRadius,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                      vertical: height * 0.02, horizontal: width * 0.02),
-                  child: Text("Trouvez un QrCode : PackWise",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: height * 0.02,
-                        color: kBackgroundColor,
-                      )),
-                )),
-          )
+        Positioned(
+          top: height * 0.15,
+          child: Material(
+              color:
+                  result == null ? kAppBarColor.withOpacity(0.7) : kAppBarColor,
+              elevation: 10,
+              borderRadius: kRadius,
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                    vertical: height * 0.02, horizontal: width * 0.02),
+                child: Text(
+                    result == null
+                        ? "Trouvez un QrCode : PackWise"
+                        : "Scannez un Qr généré par PackWise, SVP!",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: height * 0.02,
+                      color: result == null ? kBackgroundColor : Colors.white,
+                    )),
+              )),
+        )
       ]),
     );
   }
@@ -80,10 +83,14 @@ class _ScanScreenState extends State<ScanScreen> {
       if (!stopScan) {
         setState(() {
           result = scanData;
-          final box = Box.fromJsonString(result!.code!);
-          Navigator.pop(context);
-          BoxInfo.bottomSheet(context, null, null, box, true);
-          stopScan = true;
+          try {
+            final box = Box.fromJsonString(result!.code!);
+            Navigator.pop(context);
+            BoxInfo.bottomSheet(context, null, null, box, true);
+            stopScan = true;
+          } catch (e) {
+            print("ooooooooooooooooooo $e");
+          }
         });
       }
     });
