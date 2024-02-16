@@ -24,7 +24,9 @@ Whether you're moving to a new place, storing items, or just want to keep track 
 
 
 ## **Contributing** 
+
 **Contributions are welcome!** 
+
 Feel free to open issues or pull requests for any improvements or bug fixes you'd like to see. 
 
 
