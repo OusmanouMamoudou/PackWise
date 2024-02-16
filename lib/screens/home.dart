@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:pack_wise/components/app_bar_button.dart';
+import 'package:pack_wise/components/box_length.dart';
 import 'package:pack_wise/const.dart';
 import 'package:pack_wise/screens/box_info.dart';
 import 'package:pack_wise/components/empty_object.dart';
 import 'package:pack_wise/components/my_floating_action.dart';
 import 'package:pack_wise/components/my_object_card.dart';
-import 'package:pack_wise/screens/scan_screen.dart';
 import 'package:pack_wise/services/box_data.dart';
 import 'package:provider/provider.dart';
 
@@ -38,38 +39,15 @@ class _HomeState extends State<Home> {
     return Consumer<BoxData>(builder: (context, boxData, child) {
       final boxes = boxData.boxes;
       final length = boxData.boxesLength;
+      final isEmpty = boxData.boxes.isEmpty;
 
       return Scaffold(
           floatingActionButton: const MyFloatingActionB(),
           appBar: AppBar(
             title: widget.title,
-            leading: Image.asset(kLogo),
+            leading: BoxLength(length: length, isEmpty: isEmpty),
             actions: [
-              IconButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const ScanScreen()),
-                  );
-                },
-                icon: Material(
-                  color: kAppBarColor,
-                  elevation: 10,
-                  borderRadius: kRadius,
-                  child: Padding(
-                    padding: const EdgeInsets.all(2),
-                    child: Material(
-                      color: kBackgroundColor,
-                      elevation: 10,
-                      borderRadius: kRadius,
-                      child: Image.asset(
-                        kScan,
-                        color: boxData.boxes.isEmpty ? kAppBarColor : kBlue,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              AppBarButton(isEmpty: isEmpty),
             ],
           ),
           body: Container(
@@ -98,5 +76,31 @@ class _HomeState extends State<Home> {
                         }),
           ));
     });
+  }
+}
+
+class RoundedCard extends StatelessWidget {
+  const RoundedCard({
+    super.key,
+    required this.child,
+  });
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: kAppBarColor,
+      elevation: 10,
+      borderRadius: kRadius,
+      child: Padding(
+        padding: const EdgeInsets.all(2),
+        child: Material(
+            color: kBackgroundColor,
+            elevation: 10,
+            borderRadius: kRadius,
+            child: child),
+      ),
+    );
   }
 }
